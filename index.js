@@ -1,56 +1,79 @@
-// 基礎文法
-// 変数
-let unko = "Hello world";
-// unko = "Hello JS";
-
-// 定数
-const bigUnko = "Hello bigUnko";
-
-// 配列
-let inoki = ['いーち', 'にーい', 'さーん', 'だーー！'];
-
-// ループ文
-// let index = 0;
-// while (index < inoki.length) {
-//   // 繰り返したい命令
-//   console.log(inoki[index]);
-//   index++;
-// }
-
-// console.log(inoki[0]);
-
-// 繰り返し文
-// if (inoki.length > 5) {
-//   console.log("ボンバイエ！");
-// } else {
-//   console.log("ボンバ...");
-// }
-
-
-// 関数
-// const test = (arg) => {
-//   // ここに実行したい命令
-//   if (inoki.length > arg) {
-//     console.log("ボンバイエ！");
-//   } else {
-//     console.log("ボンバ...");
-//   }
-// }
-
-// test(3);
-
-// オブジェクト
-const unko2 = {
-  color: 'pink',
-  size: 'large',
-  purfume: 'mint',
-  goToilet: () => {
-    console.log("Hello world");
+const quiz = [
+  {
+    question: 'ゲーム市場、最も売れたゲーム機は次のうちどれ？',
+    answers: [
+      'スーパーファミコン',
+      'プレステ２',
+      'ニンテンドウSwitch',
+      'ニンテンドウDS'
+    ],
+    correct: 'ニンテンドウDS'
+  }, {
+    question: '糸井重里が企画に関わった、任天堂の看板ゲームといえば？',
+    answers: [
+      'MOTHER２',
+      'スーパーマリオブラザーズ３',
+      'スーパードンキコング',
+      '星のカービィ'
+    ],
+    correct: 'MOTHER２'
+  }, {
+    question: 'ファイナルファンタジーIVの主人公の名前は？',
+    answers: [
+      'フリオニール',
+      'クラウド',
+      'ティーダ',
+      'セシル'
+    ],
+    correct: 'セシル'
   }
+];
+
+const quizLength = quiz.length;
+let quizIndex = 0;
+let score = 0;
+
+
+const $button = document.getElementsByTagName('button');
+const buttonLength = $button.length;
+
+// クイズの問題文、選択肢を定義
+const setupQuiz = () => {
+  document.getElementById('js-question').textContent = quiz[quizIndex].question;
+  let buttonIndex = 0;
+  while (buttonIndex < buttonLength) {
+    $button[buttonIndex].textContent = quiz[quizIndex].answers[buttonIndex];
+    buttonIndex++;
+  }
+}
+
+setupQuiz();
+
+const clickHandler = (e) => {
+  if (quiz[quizIndex].correct === e.target.textContent) {
+    window.alert('正解');
+    score++;
+  } else {
+    window.alert('不正解');
+  }
+
+  quizIndex++;
+
+  if (quizIndex < quizLength) {
+    // 問題がまだあれば、こちらを実行
+    setupQuiz();
+  } else {
+    // 問題がもうなければ、こちらを実行
+    window.alert('終了！あなたの正解数は' + score + '/' + quizLength + 'です！');
+  }
+
 };
 
-// console.log(document.getElementsByTagName('button')[0] );
-document.getElementsByTagName('button')[0].addEventListener('click', () => {
-  // 命令を書く
-  window.alert('Hello World');
-});
+// ボタンをクリックした時の正誤判定
+let handleIndex = 0;
+while (handleIndex < buttonLength) {
+  $button[handleIndex].addEventListener('click', (e) => {
+    clickHandler(e);
+  });
+  handleIndex++;
+}
